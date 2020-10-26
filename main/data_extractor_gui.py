@@ -12,7 +12,7 @@ class Application(tk.Frame):
         self.master = master
         self.frame = tk.Frame(master)
         # Initial Image
-        self.__default_image_file = 'resources/default_graph.png'
+        self.__default_image_file = '../resources/default_graph.png'
 
         # Reference for Objects:
         self.x = self.y = 0
