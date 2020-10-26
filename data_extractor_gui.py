@@ -18,14 +18,10 @@ class Application(tk.Frame):
         self.x = self.y = 0
         self.bounding_boxes = {}
 
-
+        # Set canvas fo images
         self.canvas = tk.Canvas(self.master, width=1280, height=800, cursor="cross")
-
-
-
-
-
         self.canvas.pack()
+
         # Load Default Images
         self._initial_setup_image()
 
@@ -48,7 +44,7 @@ class Application(tk.Frame):
                                              command=self.bounding_box_creator.bind_bounding_box_creation)
         self.button_bounding_box.pack(side="right")
 
-    def load_image(self, filename):
+    def load_image(self, filename: str):
         self.display_image = ImageTk.PhotoImage(Image.open(filename))
 
 
@@ -71,7 +67,7 @@ class Application(tk.Frame):
             self.canvas.itemconfig(self.image_widget, image=self.display_image)
             self.bounding_box_creator = self.initialise_bounding_box_creator()
             # Recreate button
-            self.button_bounding_box.configure( text="Bounding Box",
+            self.button_bounding_box.configure(text="Bounding Box",
                                                  command=self.bounding_box_creator.bind_bounding_box_creation)
 
 
