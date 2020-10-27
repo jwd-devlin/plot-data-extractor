@@ -9,7 +9,7 @@ class BoundingBoxElements:
         self.rect = None
         self.start_x = None
         self.bounding_boxes = bounding_boxes
-        self.x = self.y = 0
+        self.x_axis_point = self.y_axis_point = 0
         self.image_y, self.image_x , channels = image.shape
         self.box_count= 0
         self.image = image
@@ -29,7 +29,7 @@ class BoundingBoxElements:
         self.start_y = event.y
 
         # create rectangle
-        self.rect = self.canvas.create_rectangle(self.x, self.y, 1, 1, outline='red', tags=self.__box_ids())
+        self.rect = self.canvas.create_rectangle(self.x_axis_point, self.y_axis_point, 1, 1, outline='red', tags=self.__box_ids())
 
     def on_move_press(self, event: tk.Event):
         # Draw the rectangle:
