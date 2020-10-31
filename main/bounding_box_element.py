@@ -42,14 +42,24 @@ class BoundingBoxElements:
         text_box_remove_id ="Remove Bounding Box "+ box_id
         remove_bounding = tk.Button(self.master, text=text_box_remove_id, command=lambda: self.clear_bounding_box_element(box_id))
         remove_bounding.pack()
-        self.bounding_boxes[box_id].set_delete_button(remove_bounding)
+        self.bounding_boxes[box_id].set_delete_button_widget(remove_bounding)
+
+    def create_text_entry(self, box_id: str):
+        entry_field = tk.Entry(self.master, textvariable=self.bounding_boxes[box_id].entry_converted_image_display_text)
+        entry_field.pack()
+        self.bounding_boxes[box_id].set_text_entry_widget(entry_field)
 
     def clear_bounding_box_element(self, box_id):
         current_bounding_box = self.bounding_boxes[box_id]
 
         # Button delete
-        button = current_bounding_box.delete_button
+        button = current_bounding_box.delete_button_widget
         button.destroy()
+
+        # Remove text entry
+        entry_field = current_bounding_box.image_text_entry_field_widget
+        entry_field.destroy()
+
         # Bounding Box Delete
         self.canvas.delete(box_id)
 
@@ -66,7 +76,10 @@ class BoundingBoxElements:
         # Store Rectangle
         cur_x, cur_y = (event.x, event.y)
         new_bounding_box = BoundingBox(Point(self.start_x, self.start_y), Point(cur_x, cur_y), box_id)
+        # Publish position
         new_bounding_box.publish()
+
+        # extract text:
         new_bounding_box.extract_text(self.image)
         self.bounding_boxes[box_id] = new_bounding_box
 
@@ -84,4 +97,6 @@ class BoundingBoxElements:
         self.box_count += 1
         # create removal button
         self.create_remove_button(box_id)
+        # Create text entry field for the text extracted.
+        self.create_text_entry(box_id)
         pass
