@@ -1,4 +1,4 @@
-from data_helpers import Point, BoundingBox
+from main.data_helpers import Point, BoundingBox
 import tkinter as tk
 
 
@@ -10,8 +10,8 @@ class BoundingBoxElements:
         self.start_x = None
         self.bounding_boxes = bounding_boxes
         self.x = self.y = 0
-        self.image_y, self.image_x , channels = image.shape
-        self.box_count= 0
+        self.image_y, self.image_x, channels = image.shape
+        self.box_count = 0
         self.image = image
 
     def bind_bounding_box_creation(self, *args):
@@ -21,7 +21,7 @@ class BoundingBoxElements:
         self.canvas.release_bbox = self.canvas.bind("<ButtonRelease-1>", self.on_button_release)
 
     def __box_ids(self):
-        return "bb_"+ str(self.box_count)
+        return "bb_" + str(self.box_count)
 
     def on_button_press(self, event):
         # save mouse drag start position
