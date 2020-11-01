@@ -18,7 +18,7 @@ class Application(tk.Frame):
         self._initial_setup_frames()
 
         # Reference for Objects:
-        self.bounding_boxes = {}
+        self.bounding_boxes_cache = {}
 
         # Set canvas fo images
         self.canvas = tk.Canvas(self.frame_canvas, width=1280, height=800, cursor="cross")
@@ -49,7 +49,7 @@ class Application(tk.Frame):
         # Create image widget
         self.image_widget = self.canvas.create_image(0, 0, anchor="nw", image=self.display_image)
         # Add bounding box elemnt
-        self.bounding_box_creator = self.initialise_bounding_box_creator()
+        self.initialise_bounding_box_creator()
         self.button_bounding_box = tk.Button(self.frame_buttons_static, text="Bounding Box",
                                              command=self.bounding_box_creator.bind_bounding_box_creation)
         self.button_bounding_box.pack(side=tk.LEFT)
@@ -63,8 +63,9 @@ class Application(tk.Frame):
 
     def initialise_bounding_box_creator(self):
         # Refresh bounding boxes
-        self.bounding_boxes = {}
-        return BoundingBoxElements(self.canvas, self.bounding_boxes, self.processing_image, self.frame_input_info)
+        self.bounding_boxes_cache = {}
+        self.bounding_box_creator = BoundingBoxElements(self.canvas, self.bounding_boxes_cache, self.processing_image,
+                                                        self.frame_input_info)
 
     def update_setup_for_new_image(self):
         file_name = self.__select_file_name()
@@ -75,7 +76,8 @@ class Application(tk.Frame):
             self.load_image(file_name)
             self.processing_image = cv2.imread(file_name)
             self.canvas.itemconfig(self.image_widget, image=self.display_image)
-            self.bounding_box_creator = self.initialise_bounding_box_creator()
+
+            self.initialise_bounding_box_creator()
             # Recreate button
             self.button_bounding_box.configure(text="Bounding Box",
                                                command=self.bounding_box_creator.bind_bounding_box_creation)

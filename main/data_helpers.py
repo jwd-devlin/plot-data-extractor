@@ -17,6 +17,7 @@ class BoundingBox:
         self.image_text_entry_field_widget = None
         self.converted_image_text = ""
         self.entry_converted_image_display_text = tkinter.StringVar()
+        self.index = int(canvas_id[3:])
 
     def publish(self):
         print(f"Rectangle Created Coordinates: ( {self.points[0].x} x, {self.points[0].y}  y) , "
