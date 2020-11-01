@@ -39,14 +39,15 @@ class BoundingBoxElements:
         self.canvas.coords(self.rect, self.start_x, self.start_y, cur_x, cur_y)
 
     def create_remove_button(self, box_id: str):
-        text_box_remove_id ="Remove Bounding Box "+ box_id
-        remove_bounding = tk.Button(self.master, text=text_box_remove_id, command=lambda: self.clear_bounding_box_element(box_id))
-        remove_bounding.pack()
+        text_box_remove_id = "X:" + box_id
+        remove_bounding = tk.Button(self.master, text=text_box_remove_id, bg="red",
+                                    command=lambda: self.clear_bounding_box_element(box_id))
+        remove_bounding.grid(row=self.box_count, column=0)
         self.bounding_boxes[box_id].set_delete_button_widget(remove_bounding)
 
     def create_text_entry(self, box_id: str):
         entry_field = tk.Entry(self.master, textvariable=self.bounding_boxes[box_id].entry_converted_image_display_text)
-        entry_field.pack()
+        entry_field.grid(row=self.box_count, column=1)
         self.bounding_boxes[box_id].set_text_entry_widget(entry_field)
 
     def clear_bounding_box_element(self, box_id):
@@ -70,7 +71,6 @@ class BoundingBoxElements:
     def clear_all_bounding_box_elements(self):
         for box in list(self.bounding_boxes):
             self.clear_bounding_box_element(box)
-
 
     def update_bounding_box_cache(self, event: tk.Event, box_id:str):
         # Store Rectangle

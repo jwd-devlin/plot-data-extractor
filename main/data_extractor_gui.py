@@ -37,9 +37,9 @@ class Application(tk.Frame):
         self.frame_canvas = tk.Frame(self.master, bg="yellow")
         self.frame_buttons_static = tk.Frame(self.master, bg="blue")
         self.frame_input_info = tk.Frame(self.master, bg="green")
-        self.frame_canvas.grid(row=0, column=0, rowspan=4, columnspan=8, sticky=(tk.N, tk.S, tk.W, tk.E))
-        self.frame_buttons_static.grid(row=0, column=8, rowspan=1, columnspan=2, sticky=(tk.N, tk.S, tk.W, tk.E))
-        self.frame_input_info.grid(row=1, column=8, rowspan=3, columnspan=2, sticky=(tk.N, tk.S, tk.W, tk.E))
+        self.frame_canvas.grid(row=0, column=0, rowspan=4, columnspan=6, sticky=(tk.N, tk.S, tk.W, tk.E))
+        self.frame_buttons_static.grid(row=0, column=8, rowspan=1, columnspan=3, sticky=(tk.N, tk.S, tk.W, tk.E))
+        self.frame_input_info.grid(row=1, column=8, rowspan=3, columnspan=3, sticky=(tk.N, tk.S, tk.W, tk.E))
 
     def _initial_setup_image(self):
         # Draw Default Image
