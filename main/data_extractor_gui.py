@@ -1,7 +1,7 @@
 import tkinter as tk
 from PIL import ImageTk, Image
 from tkinter import filedialog
-from bounding_box_element import BoundingBoxElements
+from main.bounding_box_element import BoundingBoxElements
 import cv2
 
 
@@ -29,7 +29,8 @@ class Application(tk.Frame):
 
 
         # Button for Switching the Image
-        self.button_switch_image = tk.Button(self.frame_buttons_static, text="Switch Image", command=self.update_setup_for_new_image)
+        self.button_switch_image = tk.Button(self.frame_buttons_static, text="Switch Image",
+                                             command=self.update_setup_for_new_image)
         self.button_switch_image.pack(side=tk.LEFT)
 
     def _initial_setup_frames(self):
@@ -77,7 +78,7 @@ class Application(tk.Frame):
             self.bounding_box_creator = self.initialise_bounding_box_creator()
             # Recreate button
             self.button_bounding_box.configure(text="Bounding Box",
-                                                 command=self.bounding_box_creator.bind_bounding_box_creation)
+                                               command=self.bounding_box_creator.bind_bounding_box_creation)
 
 
 def main():
