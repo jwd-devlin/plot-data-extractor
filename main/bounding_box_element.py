@@ -1,14 +1,15 @@
 from main.data_helpers import Point, BoundingBox
+from main.bounding_box_field_extraction_table import BoundingBoxFieldExtractionTable
 import tkinter as tk
 
 
 class BoundingBoxElements:
-    def __init__(self, canvas, bounding_boxes, image, master):
+    def __init__(self, canvas, bounding_boxes_cache, image, master):
         self.master = master
         self.canvas = canvas
         self.rect = None
         self.start_x = None
-        self.bounding_boxes = bounding_boxes
+        self.bounding_boxes_cache = bounding_boxes_cache
         self.x = self.y = 0
         self.image_y, self.image_x, channels = image.shape
         self.box_count = 0
@@ -38,39 +39,10 @@ class BoundingBoxElements:
         # expand rectangle as you drag the mouse
         self.canvas.coords(self.rect, self.start_x, self.start_y, cur_x, cur_y)
 
-    def create_remove_button(self, box_id: str):
-        text_box_remove_id ="Remove Bounding Box "+ box_id
-        remove_bounding = tk.Button(self.master, text=text_box_remove_id, command=lambda: self.clear_bounding_box_element(box_id))
-        remove_bounding.pack()
-        self.bounding_boxes[box_id].set_delete_button_widget(remove_bounding)
-
-    def create_text_entry(self, box_id: str):
-        entry_field = tk.Entry(self.master, textvariable=self.bounding_boxes[box_id].entry_converted_image_display_text)
-        entry_field.pack()
-        self.bounding_boxes[box_id].set_text_entry_widget(entry_field)
-
-    def clear_bounding_box_element(self, box_id):
-        current_bounding_box = self.bounding_boxes[box_id]
-
-        # Button delete
-        button = current_bounding_box.delete_button_widget
-        button.destroy()
-
-        # Remove text entry
-        entry_field = current_bounding_box.image_text_entry_field_widget
-        entry_field.destroy()
-
-        # Bounding Box Delete
-        self.canvas.delete(box_id)
-
-        # Cached Bounding Box data
-        del self.bounding_boxes[box_id]
-        print(" Removed " + box_id)
-
     def clear_all_bounding_box_elements(self):
-        for box in list(self.bounding_boxes):
-            self.clear_bounding_box_element(box)
-
+        BoundingBoxFieldExtractionTable(self.canvas, self.master,
+                                        self.bounding_boxes_cache
+                                        ).clear_all_bounding_box_elements()
 
     def update_bounding_box_cache(self, event: tk.Event, box_id:str):
         # Store Rectangle
@@ -81,7 +53,7 @@ class BoundingBoxElements:
 
         # extract text:
         new_bounding_box.extract_text(self.image)
-        self.bounding_boxes[box_id] = new_bounding_box
+        self.bounding_boxes_cache[box_id] = new_bounding_box
 
     def unbind_mouse_events(self):
         self.canvas.unbind("<ButtonPress-1>", self.canvas.press_bbox)
@@ -95,8 +67,9 @@ class BoundingBoxElements:
         self.unbind_mouse_events()
         # increment cached box_count
         self.box_count += 1
-        # create removal button
-        self.create_remove_button(box_id)
-        # Create text entry field for the text extracted.
-        self.create_text_entry(box_id)
+        # Create bounding box field extraction table row
+        BoundingBoxFieldExtractionTable(self.canvas, self.master,
+                                        self.bounding_boxes_cache
+                                        ).setup_bounding_box_interaction_table_row_widgets(box_id)
+
         pass
