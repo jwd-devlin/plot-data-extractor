@@ -3,6 +3,7 @@ from PIL import ImageTk, Image
 from tkinter import filedialog
 from main.bounding_box_element import BoundingBoxElements
 import cv2
+from axis_marker import AxisMarkerController
 
 
 class Application(tk.Frame):
@@ -53,6 +54,8 @@ class Application(tk.Frame):
         self.button_bounding_box = tk.Button(self.frame_buttons_static, text="Bounding Box",
                                              command=self.bounding_box_creator.bind_bounding_box_creation)
         self.button_bounding_box.pack(side=tk.LEFT)
+        # Add axis marker
+        AxisMarkerController(self.canvas, self.frame_buttons_static).create_axis_marker_enable_button()
 
     def load_image(self, filename: str):
         self.display_image = ImageTk.PhotoImage(Image.open(filename))
